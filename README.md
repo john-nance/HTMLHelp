@@ -22,13 +22,21 @@ Couple of simple rules:
 Just plain HTML files.  The pages are rendered inside the main page so make sure images are relative to the top of the web structure, 
 
 i.e.
-<img src= "Docs/-images/image_name.jpg" ..
+    <img src= "Docs/-images/image_name.jpg" ..
 
 To reference another page use
 
-<a href="#" onclick="linkTo('Menu Name')">Click Here</a>
+    <a href="#" onclick="linkTo('Menu Name')">Click Here</a>
 
-The it finds the right menu and highlights it in the tree correctly
+Then we can find the right menu and highlight it in the tree.
+
+## Security and Warnings
+
+To get the above links working we are disabling some security checks.  HTML help content is not checked or verified so you must be 100% certain that the content is safe and under your control.   
+
+## Plans
+
+The next step is to support Markdown and add some more flexibility to the solution - if that's useful so let me know if you find it useful.
 
 
 
