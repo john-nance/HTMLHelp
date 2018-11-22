@@ -2,7 +2,7 @@
 
 This is a tiny ASP.Net/C# Project which is embarrassingly simple - but it was useful for me so why not share it?
 
-I needed a simple way Help system for an application.  No problem writing HTML content I just needed a simple menu system wrapped around it.
+I needed a simple Help system for an application.  No problem writing HTML content I just needed a simple menu system wrapped around it.
 
 The idea is simple, HTML help in a folder structure which is mapped to a menu.
 
