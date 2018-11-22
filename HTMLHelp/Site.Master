@@ -1,0 +1,73 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.Master.cs" Inherits="ISOManager.Site" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title><asp:Literal ID="lit1" runat="server" Text="<%$Resources:Resource, ISOManager %>" /></title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link href="~/style/form.css?v=1.4.1." rel="stylesheet" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <asp:ScriptManager ID="smMaster" runat="server"  />
+    <container>
+     <header>
+        <div id="title"><asp:Image ID="imgMasterHeader" runat="server" ImageAlign="AbsBottom" ImageUrl="~/images/icons/folderlogo75.png" />
+            <div id="MenuButton" onclick="ShowTree()" ></div>
+            <asp:Label ID="lblMasterHeader" runat="server" Text="Help" CssClass="HeaderTitle"  />
+            
+        </div>
+      </header>
+    
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    </container>
+        <div onclick="hideme()">
+            <asp:UpdatePanel ID="upMessages" runat="server" UpdateMode="Conditional">
+                <ContentTemplate>
+                    <asp:Panel ID="pnlMessages" runat="server" CssClass="MessagePanel Hidden"  >
+                        <asp:TextBox ID="tbMessageShown" runat="server" CssClass="tbMessageShown Hidden" Text="0" />
+                        <asp:Label ID="errorMessage" runat="server" CssClass="masterError" />
+                        <asp:Label ID="statusMessage" runat="server" CssClass="masterStatus" />
+                    </asp:Panel>
+                     </ContentTemplate>
+            </asp:UpdatePanel>
+        </div>
+    </form>
+</body>
+<script type="text/javascript">
+    var TreeVisible = false;
+
+  
+
+    function ShowTree() {
+        if (TreeVisible) {
+            $("container").css("grid-template-columns", "0 auto");
+            $("#ContentPlaceHolder1_upAside").hide();
+            TreeVisible = false;
+        }
+        else {
+            $("container").css("grid-template-columns", "0.6fr 0.4fr");
+            $("#ContentPlaceHolder1_upAside").show();
+            TreeVisible = true;
+        }
+    }
+
+    function ShowScreenSize() {
+        var txt = "";
+        txt += "<p>Total width/height: " + screen.width + "*" + screen.height + "</p>";
+        txt += "<p>Available width/height: " + screen.availWidth + "*" + screen.availHeight + "</p>";
+        txt += "<p>Color depth: " + screen.colorDepth + "</p>";
+        txt += "<p>Color resolution: " + screen.pixelDepth + "</p>";
+
+        alert(txt);
+    }
+
+</script>
+
+
+</html>
