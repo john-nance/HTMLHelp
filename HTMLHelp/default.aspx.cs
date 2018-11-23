@@ -1,10 +1,8 @@
 ﻿
+using HeyRed.MarkdownSharp;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text.RegularExpressions;
-using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -13,16 +11,17 @@ namespace HTMLHelp
     public partial class Default : System.Web.UI.Page
     {
         private const string BasePath = "~/Docs/";
-        private const string DefaultPage = "default.htm";
+        private const string DefaultPage = "default";
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
             if (!Page.IsPostBack)
             {
                 DirectoryInfo rootInfo = new DirectoryInfo(Server.MapPath(BasePath));
                 PopulateTreeView(rootInfo, null);
-                ShowContent(BasePath + DefaultPage);
+
+                tvFolders.Nodes[0].Selected = true;
+                ShowContent(tvFolders.Nodes[0]);
             }
         }
 
@@ -55,18 +54,17 @@ namespace HTMLHelp
                 //Get all files in the Directory.
                 foreach (FileInfo file in directory.GetFiles())
                 {
-                    if (file.Name == DefaultPage)
+                    if (CleanFileName(file.Name).ToLower() == DefaultPage.ToLower())
+                    {
+                        directoryNode.Value = file.FullName;
                         continue;
-
+                    }
 
                     //Add each file as Child Node.
                     TreeNode fileNode = new TreeNode
                     {
                         Text = CleanFileName(file.Name),
-                        Value = file.FullName,
-                        Target = "_blank"
-                        
-                        //NavigateUrl = (new Uri(Server.MapPath("~/"))).MakeRelativeUri(new Uri(file.FullName)).ToString()
+                        Value = file.FullName
                     };
                     directoryNode.ChildNodes.Add(fileNode);
                 }
@@ -78,7 +76,7 @@ namespace HTMLHelp
 
         private string CleanFileName(string filename)
         {
-            string CleanName = filename.Replace(".htm", string.Empty).Replace("_", " ");
+            string CleanName = filename.Replace(".htm", string.Empty).Replace(".md",string.Empty).Replace("_", " ");
             string first3 = CleanName.Substring(0, 3);
             Regex rx = new Regex(@"[0-9][0-9] ");
             MatchCollection matches = rx.Matches(first3);
@@ -91,24 +89,35 @@ namespace HTMLHelp
 
         private void ShowContent(string url)
         {
-            string FilePath = Server.MapPath(url);
-            using (StreamReader sr = new StreamReader(FilePath))
-            {
-                page_HTML.Text = sr.ReadToEnd();
-            }
+            Display(Server.MapPath(url));
         }
 
         private void ShowContent(TreeNode tn)
         {
-            string FilePath = tn.Value;
-            if (!FilePath.Contains(".htm"))
+            Display(tn.Value);
+        }
+
+        private void Display(string FilePath)
+        {
+            string extension = Path.GetExtension(FilePath).Replace(".", string.Empty);
+            bool IsMarkDown = (extension == "md");
+            bool IsHTML = (extension == "htm") || (extension == "html");
+            bool IsDoc = IsMarkDown || IsHTML;
+
+            if (!IsDoc)
             {
                 FilePath = Path.Combine(FilePath, DefaultPage);
             }
 
             using (StreamReader sr = new StreamReader(FilePath))
             {
-                page_HTML.Text = sr.ReadToEnd();
+                string content = sr.ReadToEnd();
+                if (IsMarkDown)
+                {
+                    Markdown md = new Markdown();
+                    content = md.Transform(content);
+                }
+                page_HTML.Text = content;
             }
         }
 

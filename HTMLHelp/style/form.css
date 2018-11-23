@@ -85,47 +85,6 @@ header{
   background: var(--darker-bg-colour);
 }
 
-.MainMenu
-{
-    margin-top:4em;
-}
-
-.MainMenu ul li 
-{
-    
-    padding: 0.2em 1em;
-    margin: 0.1em 0.5em 0.1em 1em;
-    text-align: left;
-    padding: 0;
-}
-
-
-
-.TableHeader td,
-.MainMenu ul li a:hover,
-.MainMenu a.selected
-{
-    background-color:var(--highlight-colour);
-    color:#fff;
-}
-
-#menuMain a.aspNetDisabled 
-{
-    display:none;
-}
-
-.TableHeader td
-{
-    border: none;
-    padding: 0.2em 0.5em;
-}
-
-.MainMenu ul.level2
-{
-    background-color:#fff;
-    border: 1px solid #BBB;
-
-}
 
 header #title
 {
@@ -140,29 +99,6 @@ header #title img{
   margin-right:1em;
 }
 
-span.line
-{
-  display:block;
-  color: rgb(var(--accentColour));
-  margin-top:0.5em;
-}
-span.label
-{
- display: inline-block;
-  width: 8em;
-  font-size: 1em;
-  color: rgb(var(--accentColour));
-}
-
-span.label.vtop{
-vertical-align: top;
-}
-
-#tree ul.fancytree-container
-{
-  border: none;
-  background-color: none;
-}
 
 a.TreeSelected
 {
@@ -170,17 +106,6 @@ a.TreeSelected
     color: #fff;
 }
 
-#search
-{
-  position: absolute;
-  right: 5em;
-  margin-top: 1em;
-}
-
-#search input{
-  font-size: 1.4em;
-  padding: 0.2em 0.5em;
-}
 
 a{
   color: #111;
@@ -188,174 +113,6 @@ a{
 
 .Hidden {
     display: none;
-}
-
-div.FancyForm
-{
-    width:95%;
-}
-
-div.FancyForm div.rowSeparator
-{
-    display: block;
-    width: 100%;
-    height: 0.4em;
-}
-
-div.FancyForm h2
-{
-    color:#333;
-    font-weight: normal;
-}
-
-div.FancyForm h2 span
-{
-    margin-left: 0.5em;
-}
-
-div.FancyForm input[type=text],
-div.FancyForm input[type=password],
-div.FancyForm textarea
-{
-    border: none;
-    background-color: var(--translucent-white);
-    border-bottom: 1px #888 solid;
-    padding: 0.3em 0.6em;
-}
-
-    div.FancyForm input[type=text],
-    div.FancyForm input[type=password],
-    div.FancyForm textarea,
-    .threeCol {
-        width: calc(70vw - 18em);
-    }
-
-div.FancyForm input[type=text].HalfWidth
-{
-    width: calc((70vw - 18em) / 2 - 3em);
-    margin-right: 1vw;
-}
-
-.right{
-    text-align: right;
-    margin-right: 0.5em;
-}
-
-div.FancyForm select
-{
-    border: none;
-    background-color: var(--translucent-white);
-    border-bottom: 1px #888 solid;
-}
-
-div.FancyForm input[type=button],
-div.FancyForm input[type=submit]
-{
-    width:auto;
-    margin-right: 2em;
-    margin-top: 0.5em;
-    padding: 0.2em 0.6em;
-    background-color: var(--darker-bg-colour);
-}
-
-div.FancyForm input[type=button]:hover,
-div.FancyForm input[type=submit]:hover
-{
-    background-color: var(--darker-bg-colour);
-}
-
-.MessagePanel{
-    position: absolute;
-    left: 10vw; 
-    top: 85vh;
-    border: 1px solid #555;
-    height: 2em;
-    width: 60vw;
-    padding: 1em;
-    box-shadow: var(--shadow-colour) 1em 1em 0.5em;
-    background-color: #fff;
-    border-radius: 0.4em;
-}
-
-table.ClickRow tr.TableHeader>td:first-child,
-table.ClickRow tr.TableAlt>td:first-child,
-table.ClickRow tr.TableLines>td:first-child,
-table.ClickRow tr.dgRowSelected>td:first-child
-{
-	display: none;
-}
-
-table.ClickRow tr
-{
-	cursor: pointer;
-}
-
-table.HoverRow tr:hover,
-tr.dgRowSelected
-{
-    background-color: var(--darker-bg-colour);
-    color: #000;
-}
-
-
-.ClickRow,
-.TableHeader.TableNoBorder td,
-.TableAlt.TableNoBorder td,
-.TableLines.TableNoBorder td
-{
-    border:none;
-}
-
-.TableAlt,
-.PagerFooter td a
-{
-	background-color: var(--main-bg-colour);
-    border:none;
-}
-
-
-
-TableHeader,
-.TableLines,
-.TableLines td,
-.TableAlt td,
-.TableLineHighlight td,
-.dgRowSelected td
-{
-	padding: 0.2em 0.4em;
-    border: none;
-}
-
-.inLineTable
-{
-    display: inline-table;
-    border-spacing: 0;
-    padding: 0;
-}
-
-.inLineTable td{
-    padding: 0 1em 0 0;
-}
-
-table.spacingTable
-{
-    width: 100%;
-    border: none;
-    padding:0.5em;
-}
-
-table.spacingTable input[type=submit]
-{
-    margin: 0px;
-    padding: 0.3em 0.8em;
-}
-
-.PageNoContent
-{
-    padding: 2em;
-    width: 100%;
-    height:60vh;
-    z-index:999;
 }
 
 #MenuButton {
@@ -368,15 +125,6 @@ table.spacingTable input[type=submit]
     display: none;
 }
 
-.spaceRight
-{
-    margin-right: 3em;
-}
-
-.RoleBox{
-    width: 10em;
-    height: 8em;
-}
 
 
 @media only screen and (max-width: 1000px) {
@@ -384,20 +132,6 @@ table.spacingTable input[type=submit]
     header .HeaderTitle
     {display: none}
 
-    div.FancyForm input[type=text],
-    div.FancyForm input[type=password],
-    div.FancyForm textarea
-    {
-        width: calc(90vw - 18em);
-    }
-
-    div.FancyForm input[type=text].HalfWidth {
-        width: calc(32vw - 18em);
-    }
-
-    .threeCol{
-        display: block;
-    }
 }
 
 @media only screen and (max-width: 800px) {
@@ -405,30 +139,16 @@ table.spacingTable input[type=submit]
     header .HeaderTitle
     {display: none}
 
-    header .MainMenu li:nth-of-type(4),
-     header .MainMenu li:nth-of-type(5)
-    {display: none;}
-
-    span.line, span.label
-    {
-      display:block;
-      color: rgb(var(--accentColour));
-      margin-top:0.5em;
-    }
+   
     aside {
         font-size: 1.2em;
     }
 
-    .label.right
-    {
-        text-align: left;
-    }
 }
 @media only screen and (max-width: 600px) {
 
     /* Hide elements */
-    header .HeaderTitle,
-    header .MainMenu
+    header .HeaderTitle
     {display: none}
 
     #MenuButton
@@ -448,33 +168,6 @@ table.spacingTable input[type=submit]
         background: none;
         overflow-x: hidden;
         font-size: 1.4em;
-    }
-
-    #ContentPlaceHolder1_upAside
-    {
-        display: none;
-    }
-
-   
-	#search
-	{
-		right:1em;
-        width:50%;
-	}
-	#search input[type=search]
-	{
-		width: 70%;
-	}
-
-    div.FancyForm input[type=text],
-    div.FancyForm input[type=password],
-    div.FancyForm textarea
-    {
-        width: calc(90vw - 3em);
-    }
-
-    div.FancyForm input[type=text].HalfWidth {
-        width: calc(32vw - 3em);
     }
 
 }
