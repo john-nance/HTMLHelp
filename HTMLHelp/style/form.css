@@ -1,13 +1,13 @@
 :root
 {
-    --mainColour: 230, 215, 205;
-    --accentColour: 139, 69, 19;
+    --mainColour: 230, 215, 205;  /* #e6d7cd  */
+    --accentColour: 139, 69, 19;  /* #8b4513  */
 
-/*
+
          --mainColour: 159, 219, 189;
         --accentColour: 40, 119, 79;
 
-             
+/*             
         --mainColour:  215, 205, 230;
         --accentColour:  69, 19, 139;
 */
@@ -97,6 +97,10 @@ header #title
 header #title img{
   vertical-align: middle; 
   margin-right:1em;
+}
+
+main img{
+    max-width: 100%;
 }
 
 

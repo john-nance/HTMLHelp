@@ -1,8 +1,11 @@
 ﻿
 using HeyRed.MarkdownSharp;
+using HTMLHelp.classes;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -13,15 +16,33 @@ namespace HTMLHelp
         private const string BasePath = "~/Docs/";
         private const string DefaultPage = "default";
 
+        private List<ContentClass> HelpContent
+        {
+            get
+            {
+                if (Session["Content"]==null)
+                {
+                    Session["Content"] = new List<ContentClass>();
+                }
+                return (List<ContentClass>)Session["Content"];
+            }
+            set
+            {
+                Session["Content"] = value;
+            }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!Page.IsPostBack)
             {
                 DirectoryInfo rootInfo = new DirectoryInfo(Server.MapPath(BasePath));
+                HelpContent = new List<ContentClass>();
                 PopulateTreeView(rootInfo, null);
 
                 tvFolders.Nodes[0].Selected = true;
                 ShowContent(tvFolders.Nodes[0]);
+                GetActionInURL();
             }
         }
 
@@ -31,14 +52,17 @@ namespace HTMLHelp
             {
 
                 if (directory.Name.Substring(0, 1) == "-")
+                {
+                    HelpContent.Add(new ContentClass(directory.Name, directory.Name, false, true));
                     continue;
+                }
 
                 TreeNode directoryNode = new TreeNode
                 {
                     Text = CleanFileName(directory.Name),
                     Value = directory.FullName
-                    //NavigateUrl= BasePath + directory.ToString()
                 };
+                HelpContent.Add(new ContentClass(directoryNode.Value, directoryNode.Text, true, true));
 
                 if (treeNode == null)
                 {
@@ -67,10 +91,10 @@ namespace HTMLHelp
                         Value = file.FullName
                     };
                     directoryNode.ChildNodes.Add(fileNode);
+                    HelpContent.Add(new ContentClass(fileNode.Value, fileNode.Text, true, false));
                 }
 
                 PopulateTreeView(directory, directoryNode);
-                
             }
         }
 
@@ -107,18 +131,65 @@ namespace HTMLHelp
             if (!IsDoc)
             {
                 FilePath = Path.Combine(FilePath, DefaultPage);
+                if (File.Exists(FilePath+".md"))
+                {
+                    FilePath = FilePath + ".md";
+                }
+                else
+                {
+                    if (File.Exists(FilePath + ".htm"))
+                    {
+                        FilePath = FilePath + ".htm";
+                    }
+                    else
+                    {
+                        if (File.Exists(FilePath + ".html"))
+                        {
+                            FilePath = FilePath + ".html";
+                        }
+                    }
+                }
             }
 
-            using (StreamReader sr = new StreamReader(FilePath))
+            if (File.Exists(FilePath))
             {
-                string content = sr.ReadToEnd();
-                if (IsMarkDown)
+                using (StreamReader sr = new StreamReader(FilePath))
                 {
-                    Markdown md = new Markdown();
-                    content = md.Transform(content);
+                    string content = sr.ReadToEnd();
+                    if (IsMarkDown)
+                    {
+
+                        Markdown md = new Markdown();
+                        content = md.Transform(content) + "<br/>";
+                    }
+                    page_HTML.Text = content;
                 }
-                page_HTML.Text = content;
             }
+        }
+
+        private string ReadContent(string FilePath)
+        {
+            string content = string.Empty;
+
+            string extension = Path.GetExtension(FilePath).Replace(".", string.Empty);
+            bool IsMarkDown = (extension == "md");
+            bool IsHTML = (extension == "htm") || (extension == "html");
+            bool IsDoc = IsMarkDown || IsHTML;
+
+            if (!IsDoc)
+            {
+                FilePath = Path.Combine(FilePath, DefaultPage + ".md");
+            }
+
+            
+            if (File.Exists(FilePath))
+            {
+                using (StreamReader sr = new StreamReader(FilePath))
+                {
+                    content = sr.ReadToEnd();
+                }
+            }
+            return content;
         }
 
         public void tvFolders_SelectedNodeChanged(object sender, EventArgs e)
@@ -126,5 +197,122 @@ namespace HTMLHelp
             TreeNode thisNode = tvFolders.SelectedNode;
             ShowContent(thisNode);
         }
+
+        private void CheckPages()
+        {
+            page_HTML.Text = "<h1>Checking</h1>";
+            string Root = Server.MapPath(BasePath);
+
+            foreach (ContentClass c in HelpContent)
+            {
+                page_HTML.Text += "<br/>Checking " + c.DisplayName.Replace(Root, string.Empty);
+                if (c.IsVisible)
+                {
+
+                    string content = ReadContent(c.DisplayName);
+                    if (content != string.Empty)
+                    {
+                        evaluateContent(content);
+                    }
+                    else
+                    {
+                        page_HTML.Text += " ... no content, skipping";
+                    }
+                }
+                else
+                {
+                    page_HTML.Text += " ... not visible, skipping";
+                }
+            }
+        }
+
+        private void evaluateContent(string content)
+        {
+            string linkSearch = @"linkTo\('([^\']*)'\)";
+
+            char singleQuote = (char) 39;
+            char doubleQuote = (char) 34; 
+            linkSearch=linkSearch.Replace(singleQuote, doubleQuote);
+            Regex link = new Regex(linkSearch);
+            foreach (Match m in Regex.Matches(content,linkSearch))
+            {
+                page_HTML.Text += "<br/>---- Match " + m.Captures[0].ToString();
+                if (m.Groups.Count==2)
+                {
+                    Group g = m.Groups[1];
+                    string PageName = g.ToString();
+                    PageName = PageName.Replace("_", " ").Replace("%20", " ");
+
+                    page_HTML.Text += " >> " + PageName;
+                    if (foundPage(PageName))
+                    {
+                        page_HTML.Text += "  -- OK ";
+                    }
+                    else
+                    {
+                        page_HTML.Text += "  ****** MISSING ***** ";
+                    }
+                }
+
+
+                string s = m.Result("\\1");
+            }
+        }
+
+        private bool foundPage(string pageName)
+        {
+            bool result = false;
+
+            foreach (ContentClass c in HelpContent)
+            {
+                if (c.LinkName == pageName)
+                {
+                    result = true;
+                }
+            }
+            return result;
+        }
+
+        private void GetActionInURL()
+        {
+            HttpContext myContext = HttpContext.Current;
+            string action = myContext.Request.Params["action"];
+            if (!string.IsNullOrWhiteSpace(action))
+            {
+                DoAction(action);
+            }
+        }
+
+        private void DoAction(string action)
+        {
+            action = action.ToLower().Trim();
+            if (action == string.Empty)
+                return;
+
+            if (action=="checklinks")
+            {
+                CheckPages();
+                return;
+            }
+
+            action = action.Replace("_", " ");
+
+            string PageRequest = string.Empty;
+            foreach (ContentClass c in HelpContent)
+            {
+                if ((c.LinkName.ToLower()==action)  && (c.IsVisible))
+                {
+                    PageRequest = c.DisplayName;
+                    break;
+                }
+            }
+            if (PageRequest!=string.Empty)
+            {
+                Display(PageRequest);
+            }
+
+        }
+
+
     }
 }

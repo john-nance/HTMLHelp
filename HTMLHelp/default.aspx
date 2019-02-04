@@ -11,7 +11,8 @@
     <script type="text/javascript">
 	
     function linkTo(location) 
-	{
+    {
+        var location = location.replace(/_/g, " ");
 		var tv=document.getElementById("tvFolders");
 		
 		var tvItems = tv.getElementsByTagName("a");
@@ -48,7 +49,6 @@
         <aside>
             <asp:UpdatePanel ID="upAside" runat="server">
                 <ContentTemplate>
-
                     <asp:TreeView ID="tvFolders" runat="server"
                         OnSelectedNodeChanged="tvFolders_SelectedNodeChanged"
                            SelectedNodeStyle-CssClass="TreeSelected"
@@ -57,7 +57,7 @@
             </asp:UpdatePanel>
         </aside>
 
-        <main>
+        <main id="main">
             <asp:UpdatePanel ID="upContent" runat="server" UpdateMode="Always">
                 <ContentTemplate>
                     <asp:Literal ID="page_HTML" runat="server" />
@@ -72,8 +72,12 @@
 <script type="text/javascript">
     var TreeVisible = false;
 
-  
+    // Force to scrolltop of newly loaded content 
+    Sys.Application.add_load(function () {
+        document.getElementById("main").scrollTo(0, 0);
+    });
 
+    // Hide/Show tree in mobile view
     function ShowTree() {
         if (TreeVisible) {
             $("container").css("grid-template-columns", "0 auto");
@@ -85,16 +89,6 @@
             $("#ContentPlaceHolder1_upAside").show();
             TreeVisible = true;
         }
-    }
-
-    function ShowScreenSize() {
-        var txt = "";
-        txt += "<p>Total width/height: " + screen.width + "*" + screen.height + "</p>";
-        txt += "<p>Available width/height: " + screen.availWidth + "*" + screen.availHeight + "</p>";
-        txt += "<p>Color depth: " + screen.colorDepth + "</p>";
-        txt += "<p>Color resolution: " + screen.pixelDepth + "</p>";
-
-        alert(txt);
     }
 
 </script>
