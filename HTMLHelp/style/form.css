@@ -41,14 +41,21 @@ select{
 
 container {
   display: grid;
-  /* grid-template-columns: minmax(18em, 0.25fr) 1fr; */
-  /* grid-template-columns: 0.3fr, 1fr; */
   grid-template-columns: 30% 70%;
   grid-template-columns: 1fr 3fr;
   
   grid-template-rows: 7em calc(100vh - 8.5em);
   grid-gap: 0.3em;
 }
+
+container.full{
+    grid-template-columns: 0 auto;
+}
+
+container.full #upAside{
+    display: none;
+}
+
 
 :focus {outline:none;}
 
@@ -167,11 +174,24 @@ a{
         grid-gap: 0.3em;
     }
 
-    aside
+    aside,
+    aside #upAside
     {
         background: none;
         overflow-x: hidden;
         font-size: 1.4em;
+    }
+
+    container.full aside
+    {
+        z-index: 99;
+        width: 12em;
+        background-color: #fff;
+    }
+
+    container.full aside #upAside
+    {
+        display: block;
     }
 
 }

@@ -8,31 +8,6 @@
     <title><asp:Literal ID="lit1" runat="server" Text="HTML Help" /></title>
     <meta name="viewport" content="initial-scale=1, maximum-scale=1">
     <link href="~/style/form.css?v=1.4.1." rel="stylesheet" />
-    <script type="text/javascript">
-	
-    function linkTo(location) 
-    {
-        var location = location.replace(/_/g, " ");
-		var tv=document.getElementById("tvFolders");
-		
-		var tvItems = tv.getElementsByTagName("a");
-		
-		var count=tvItems.length;
-		var thisID="";
-		for (var n=0; n<count;n++)
-		{
-			var ele=tvItems[n];
-			if (ele.innerHTML==location)
-				thisID=ele.id;
-		}
-		if (thisID != "") {
-		    var thisLink = document.getElementById(thisID);
-            if ((thisLink!=null) && (thisLink.getAttribute("href").length>1))
-		        setTimeout(thisLink.getAttribute('href'), 10);
-		}
-	}
-
-    </script>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -77,17 +52,42 @@
         document.getElementById("main").scrollTo(0, 0);
     });
 
+    // Display a named page
+    function linkTo(location) {
+        var location = location.replace(/_/g, " ");
+        var tv = document.getElementById("tvFolders");
+
+        var tvItems = tv.getElementsByTagName("a");
+
+        var count = tvItems.length;
+        var thisID = "";
+        for (var n = 0; n < count; n++) {
+            var ele = tvItems[n];
+            if (ele.innerHTML == location)
+                thisID = ele.id;
+        }
+        if (thisID != "") {
+            var thisLink = document.getElementById(thisID);
+            if ((thisLink != null) && (thisLink.getAttribute("href").length > 1))
+                setTimeout(thisLink.getAttribute('href'), 10);
+        }
+    }
+
     // Hide/Show tree in mobile view
     function ShowTree() {
-        if (TreeVisible) {
-            $("container").css("grid-template-columns", "0 auto");
-            $("#ContentPlaceHolder1_upAside").hide();
-            TreeVisible = false;
-        }
-        else {
-            $("container").css("grid-template-columns", "0.6fr 0.4fr");
-            $("#ContentPlaceHolder1_upAside").show();
-            TreeVisible = true;
+        var container = document.getElementsByTagName("container");
+        if ((container != null) && (container.length > 0)) 
+        {
+            if (TreeVisible) 
+            {
+                container[0].classList.add("full");
+                TreeVisible = false;
+            }
+            else
+            {
+                container[0].classList.remove("full");
+                TreeVisible = true;
+            }
         }
     }
 
