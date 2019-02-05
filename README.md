@@ -41,10 +41,6 @@ For images in the help system use
 
     ![the image](Docs/-images/image_name.png "The Image")
 
-or to link to another page in the help system use
-
-    [Another Help Page](javascript:linkTo("Another Help Page"))
-
 ## Security and Warnings
 
 To get the above links working we are disabling some security checks.  Help content is not checked or verified so you must be 100% certain that the content is safe and under your control.
@@ -53,7 +49,7 @@ To get the above links working we are disabling some security checks.  Help cont
 
 The default styling HTML 5 grids.  The stylesheet is forms.css.  It uses css variables to make it easier to change colours.  This means it will work in Chrome, Firefox, Edge and Safari but not in IE.  The only issue for IE is the styling so you'll need to remove grids and variables.
 
-## License
+## MIT License
 
 Feel free to use it any way you like, no restrictions.
 
