@@ -1,10 +1,10 @@
-# HTMLHelp
+# pureHelp
 
 This is a tiny ASP.Net/C# Project which is embarrassingly simple - but it was useful for me so why not share it?
 
 I needed a simple Help system for an application.  No problem writing content I just needed a menu system wrapped around it.
 
-The idea is simple, Markdown/HTML help in a folder structure which is mapped to a menu.
+The idea is simple, Markdown/HTML help in a folder structure which is mapped to a help menu.
 
 ## Help Structure
 
@@ -17,6 +17,8 @@ Couple of simple rules:
 * Default.htm is the default content when clicking on the folder name, so not shown on the menu
 * AnyThingElse.xxx is shown as a menu item without the extension
 * Any underscores are shown as spaces in the menu so a folder called "The_Topic" will be seen as "The Topic"
+
+Sample content is included in the code under Docs.
 
 ## Help Content
 
