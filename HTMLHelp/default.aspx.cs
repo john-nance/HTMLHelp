@@ -134,18 +134,21 @@ namespace HTMLHelp
                 if (File.Exists(FilePath+".md"))
                 {
                     FilePath = FilePath + ".md";
+                    IsMarkDown = true;
                 }
                 else
                 {
                     if (File.Exists(FilePath + ".htm"))
                     {
                         FilePath = FilePath + ".htm";
+                        IsHTML = true;
                     }
                     else
                     {
                         if (File.Exists(FilePath + ".html"))
                         {
                             FilePath = FilePath + ".html";
+                            IsHTML = true;
                         }
                     }
                 }
