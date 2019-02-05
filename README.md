@@ -31,19 +31,30 @@ Links within the help system use a linkTo javascript function with the name of t
 ### HTML
 
 For images use
+
+```
     <img src= "Docs/-images/image_name.jpg" ..
+```
 
 or to link to another page in the help system use
 
-    <a href="#" onclick="linkTo('Menu Name')">Click Here</a>
-or
-    <a href="javascript:linkTo('Menu Name')" >Click Here</a>
+```
+   <a href="javascript:linkTo('Menu Name')">Click Here</a>
+```
 
 ### MarkDown
 
 For images in the help system use
 
+```
     ![the image](Docs/-images/image_name.png "The Image")
+```
+
+To link to another page in the help system use
+
+```
+   [Click Here](javascript:linkTo("Menu Name"))
+```
 
 ## Security and Warnings
 
@@ -67,8 +78,4 @@ Add **?Action=Topic_Name** to the url to link to a specific help page to build c
 Feel free to use it any way you like, no restrictions.
 
 If you come up with improvements, then I'd love to hear about them.
-
-
-
-
 
