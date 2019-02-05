@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="HTMLHelp.Default" EnableEventValidation="false" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="default.aspx.cs" Inherits="pureHelp.Default" EnableEventValidation="false" %>
 
 <!DOCTYPE html>
 
@@ -17,7 +17,7 @@
          <header>
             <div id="title"><asp:Image ID="imgMasterHeader" runat="server" ImageAlign="AbsBottom" ImageUrl="~/images/icons/folderlogo75.png" />
                 <div id="MenuButton" onclick="ShowTree()" ></div>
-                <asp:Label ID="lblMasterHeader" runat="server" Text="Help" CssClass="HeaderTitle"  />
+                <asp:Label ID="lblMasterHeader" runat="server" Text="pureHelp" CssClass="HeaderTitle"  />
             </div>
           </header>
 

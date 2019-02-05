@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace HTMLHelp.classes
+namespace pureHelp.classes
 {
     public class ContentClass
     {

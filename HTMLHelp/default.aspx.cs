@@ -1,6 +1,6 @@
 ﻿
 using HeyRed.MarkdownSharp;
-using HTMLHelp.classes;
+using pureHelp.classes;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -9,7 +9,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace HTMLHelp
+namespace pureHelp
 {
     public partial class Default : System.Web.UI.Page
     {

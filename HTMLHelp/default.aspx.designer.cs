@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace HTMLHelp {
+namespace pureHelp {
     
     
     public partial class Default {
