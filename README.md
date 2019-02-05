@@ -4,7 +4,9 @@ This is a tiny ASP.Net/C# Project which is embarrassingly simple - but it was us
 
 I needed a simple Help system for an application.  No problem writing content I just needed a menu system wrapped around it.
 
-The idea is simple, Markdown/HTML help in a folder structure which is mapped to a help menu.
+The idea is simple, Markdown or HTML help in a folder structure which is mapped to a help menu.
+
+![pureHelp](https://github.com/john-nance/HTMLHelp/blob/master/HTMLHelp/Docs/-images/pureHelp/IntroPage.png)
 
 ## Help Structure
 
