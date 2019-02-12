@@ -38,7 +38,7 @@ namespace pureHelp
             {
                 DirectoryInfo rootInfo = new DirectoryInfo(Server.MapPath(BasePath));
                 HelpContent = new List<ContentClass>();
-                PopulateTreeView(rootInfo, null);
+                PopulateIndex(rootInfo, null);
 
                 tvFolders.Nodes[0].Selected = true;
                 ShowContent(tvFolders.Nodes[0]);
@@ -46,11 +46,11 @@ namespace pureHelp
             }
         }
 
-        private void PopulateTreeView(DirectoryInfo dirInfo, TreeNode treeNode)
+        private void PopulateIndex(DirectoryInfo dirInfo, TreeNode treeNode)
         {
             foreach (DirectoryInfo directory in dirInfo.GetDirectories())
             {
-
+                // Hidden Folder, add for refernce but don't show
                 if (directory.Name.Substring(0, 1) == "-")
                 {
                     HelpContent.Add(new ContentClass(directory.Name, directory.Name, false, true));
@@ -60,9 +60,12 @@ namespace pureHelp
                 TreeNode directoryNode = new TreeNode
                 {
                     Text = CleanFileName(directory.Name),
-                    Value = directory.FullName
+                    Value = directory.FullName,
+                     
                 };
-                HelpContent.Add(new ContentClass(directoryNode.Value, directoryNode.Text, true, true));
+
+                ContentClass newContent = new ContentClass(directoryNode, true);
+                HelpContent.Add(newContent);
 
                 if (treeNode == null)
                 {
@@ -81,6 +84,7 @@ namespace pureHelp
                     if (CleanFileName(file.Name).ToLower() == DefaultPage.ToLower())
                     {
                         directoryNode.Value = file.FullName;
+                        newContent.FilePath = directoryNode.Value;
                         continue;
                     }
 
@@ -91,10 +95,10 @@ namespace pureHelp
                         Value = file.FullName
                     };
                     directoryNode.ChildNodes.Add(fileNode);
-                    HelpContent.Add(new ContentClass(fileNode.Value, fileNode.Text, true, false));
+                    HelpContent.Add(new ContentClass(fileNode, false));
                 }
 
-                PopulateTreeView(directory, directoryNode);
+                PopulateIndex(directory, directoryNode);
             }
         }
 
@@ -208,11 +212,10 @@ namespace pureHelp
 
             foreach (ContentClass c in HelpContent)
             {
-                page_HTML.Text += "<br/>Checking " + c.DisplayName.Replace(Root, string.Empty);
+                page_HTML.Text += "<br/>Checking " + c.FilePath.Replace(Root, string.Empty);
                 if (c.IsVisible)
                 {
-
-                    string content = ReadContent(c.DisplayName);
+                    string content = ReadContent(c.FilePath);
                     if (content != string.Empty)
                     {
                         evaluateContent(content);
@@ -301,17 +304,22 @@ namespace pureHelp
             action = action.Replace("_", " ");
 
             string PageRequest = string.Empty;
+
+            ContentClass foundContent = null;
             foreach (ContentClass c in HelpContent)
             {
                 if ((c.LinkName.ToLower()==action)  && (c.IsVisible))
                 {
-                    PageRequest = c.DisplayName;
+                    foundContent = c;
                     break;
                 }
             }
-            if (PageRequest!=string.Empty)
+            if (foundContent != null)
             {
-                Display(PageRequest);
+                TreeNode thisNode = tvFolders.FindNode(foundContent.Node.ValuePath);
+                if (thisNode!=null)
+                    thisNode.Selected = true;
+                Display(foundContent.FilePath);
             }
 
         }
