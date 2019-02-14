@@ -126,6 +126,13 @@ a{
     display: none;
 }
 
+.error {
+    padding: 0 1em;
+    margin: 0 1em;
+    background-color: red;
+    color: #fff;
+}
+
 #MenuButton {
     display: block;
     float: left;

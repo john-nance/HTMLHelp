@@ -256,7 +256,7 @@ namespace pureHelp
                     }
                     else
                     {
-                        page_HTML.Text += "  ****** MISSING ***** ";
+                        page_HTML.Text += "<span class='error'>****** MISSING *****</span>";
                     }
                 }
 
