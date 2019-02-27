@@ -24,6 +24,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -88,6 +89,7 @@
     <None Include="Docs\03_Writing Content\05_Checking_for_errors.md" />
     <None Include="Docs\03_Writing Content\06_Advanced_Usage.md" />
     <None Include="Properties\PublishProfiles\Local.pubxml" />
+    <Content Include="pureHelp.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -170,6 +172,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="classes\ContentClass.cs" />
+    <Compile Include="classes\Settings.cs" />
     <Compile Include="default.aspx.cs">
       <DependentUpon>default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

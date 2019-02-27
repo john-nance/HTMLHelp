@@ -8,6 +8,6 @@ Menu on the left and the help content on the right.
 
 Click any topics in the menu to see more information.
 
-You will also find links in the help content guiding you to other relevent information.
+You will also find links in the help content guiding you to other relevant information.
 
 ![pureHelp Screenshot](Docs/-images/pureHelp/IntroPage.png)

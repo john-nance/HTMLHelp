@@ -1,8 +1,0 @@
-01_Images.md
-02_Links.md
-03_Markdown.md
-04_HTML.htm
-05_Checking_for_errors.md
-06_Advanced_Usage.md
-default.md
-xx.txt

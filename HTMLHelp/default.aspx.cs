@@ -1,5 +1,6 @@
 ﻿
 using HeyRed.MarkdownSharp;
+using HTMLHelp.classes;
 using pureHelp.classes;
 using System;
 using System.Collections.Generic;
@@ -13,8 +14,6 @@ namespace pureHelp
 {
     public partial class Default : System.Web.UI.Page
     {
-        private const string BasePath = "~/Docs/";
-        private const string DefaultPage = "default";
 
         private List<ContentClass> HelpContent
         {
@@ -36,9 +35,11 @@ namespace pureHelp
         {
             if (!Page.IsPostBack)
             {
-                DirectoryInfo rootInfo = new DirectoryInfo(Server.MapPath(BasePath));
+                DirectoryInfo rootInfo = new DirectoryInfo(Server.MapPath(Settings.HelpFolder));
                 HelpContent = new List<ContentClass>();
                 PopulateIndex(rootInfo, null);
+
+                SetHelpHeader();
 
                 tvFolders.ExpandDepth = 1;
                 tvFolders.Nodes[0].Selected = true;
@@ -82,7 +83,7 @@ namespace pureHelp
                 //Get all files in the Directory.
                 foreach (FileInfo file in directory.GetFiles())
                 {
-                    if (CleanFileName(file.Name).ToLower() == DefaultPage.ToLower())
+                    if (CleanFileName(file.Name).ToLower() == Settings.DefaultPageName)
                     {
                         directoryNode.Value = file.FullName;
                         newContent.FilePath = directoryNode.Value;
@@ -136,7 +137,7 @@ namespace pureHelp
 
             if (!IsDoc)
             {
-                FilePath = Path.Combine(FilePath, DefaultPage);
+                FilePath = Path.Combine(FilePath, Settings.DefaultPageName);
                 if (File.Exists(FilePath+".md"))
                 {
                     FilePath = FilePath + ".md";
@@ -187,7 +188,7 @@ namespace pureHelp
 
             if (!IsDoc)
             {
-                FilePath = Path.Combine(FilePath, DefaultPage + ".md");
+                FilePath = Path.Combine(FilePath, Settings.DefaultPageName + ".md");
             }
 
             
@@ -201,6 +202,12 @@ namespace pureHelp
             return content;
         }
 
+        private void SetHelpHeader()
+        {
+            imgMasterHeader.ImageUrl = Settings.HelpIcon;
+            lblMasterHeader.Text = Settings.HelpName;
+        }
+
         public void tvFolders_SelectedNodeChanged(object sender, EventArgs e)
         {
             TreeNode thisNode = tvFolders.SelectedNode;
@@ -210,7 +217,7 @@ namespace pureHelp
         private void CheckPages()
         {
             page_HTML.Text = "<h1>Checking</h1>";
-            string Root = Server.MapPath(BasePath);
+            string Root = Server.MapPath(Settings.HelpFolder);
 
             foreach (ContentClass c in HelpContent)
             {

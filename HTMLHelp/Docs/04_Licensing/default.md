@@ -1,6 +1,6 @@
 # Licensing
 
-This software is provided "as in" with no waranty.
+This software is provided "as in" with no warranty.
 
 You are free to take this software, use it and adapt as required with no requirement to pay licenses for personal or commercial use.
 

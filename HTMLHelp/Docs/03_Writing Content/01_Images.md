@@ -14,10 +14,10 @@ As you can see in this example, you can use folders under -images to organise yo
 
 The default styling is to set images to full size unless they are wider than the display area, in which case they are resized to fit the window.
 
-You can link to images outsite the pureHelp system by giving a full url - but this will break your images if the images are moved.
+You can link to images outside the pureHelp system by giving a full url - but images will be broken if the external images are moved or renamed.
 
 ## Image Sizes
 
-There is no point in having massive images.  The smaller their file size the quicker tey will load.  
+There is no point in having massive images.  The smaller their file size; the quicker they will load.
 
 These are help pages for screen viewing so they should look good on a normal screen/tablet.
