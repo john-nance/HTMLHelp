@@ -40,6 +40,7 @@ namespace pureHelp
                 HelpContent = new List<ContentClass>();
                 PopulateIndex(rootInfo, null);
 
+                tvFolders.ExpandDepth = 1;
                 tvFolders.Nodes[0].Selected = true;
                 ShowContent(tvFolders.Nodes[0]);
                 GetActionInURL();
@@ -122,6 +123,7 @@ namespace pureHelp
 
         private void ShowContent(TreeNode tn)
         {
+            ExpandParents(tn);
             Display(tn.Value);
         }
 
@@ -317,13 +319,24 @@ namespace pureHelp
             if (foundContent != null)
             {
                 TreeNode thisNode = tvFolders.FindNode(foundContent.Node.ValuePath);
-                if (thisNode!=null)
+                if (thisNode != null)
+                {
                     thisNode.Selected = true;
+                    ExpandParents(thisNode);
+                }
                 Display(foundContent.FilePath);
             }
 
         }
 
+        private void ExpandParents(TreeNode thisNode)
+        {
+            if ((thisNode.Parent != null) && (thisNode.Parent.Expanded != true))
+            {
+                thisNode.Parent.Expand();
+                ExpandParents(thisNode.Parent);
+            }
+        }
 
     }
 }

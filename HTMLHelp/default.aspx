@@ -24,7 +24,7 @@
         <aside>
             <asp:UpdatePanel ID="upAside" runat="server">
                 <ContentTemplate>
-                    <asp:TreeView ID="tvFolders" runat="server"
+                    <asp:TreeView ID="tvFolders" runat="server" 
                         OnSelectedNodeChanged="tvFolders_SelectedNodeChanged"
                            SelectedNodeStyle-CssClass="TreeSelected"
                     />
