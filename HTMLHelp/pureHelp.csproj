@@ -76,6 +76,9 @@
     <Content Include="Docs\-images\pureHelp\FileStructureDisplayed.png" />
     <Content Include="Docs\-images\pureHelp\IntroPage.png" />
     <Content Include="Docs\-images\pureHelp\mobile.png" />
+    <Content Include="images\DashIcon.png" />
+    <Content Include="images\LogoFolder.png" />
+    <Content Include="images\LogoChart.png" />
     <Content Include="packages.config" />
     <Content Include="Docs\02_Using_pureHelp\default.md" />
     <Content Include="Docs\02_Using_pureHelp\Mobile.md" />
@@ -171,7 +174,11 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="classes\ContentCache.cs" />
     <Compile Include="classes\ContentClass.cs" />
+    <Compile Include="classes\Page.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
     <Compile Include="classes\Settings.cs" />
     <Compile Include="default.aspx.cs">
       <DependentUpon>default.aspx</DependentUpon>

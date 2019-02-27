@@ -1,10 +1,10 @@
 # Images
 
-Images are in a folder called "-images".
+Images are typically in a folder called "-images" under the Docs directory.
 
-Any folders beginning with a minus sign are hidden from the index - so you don't see this images folder in the menu on the left.
+Any folders beginning with a minus sign are hidden from the index - so you don't see this "-images" folder in the menu on the left.
 
-Pages are rendered from the root of the application so the path to images is always Docs/-images/...
+Pages are rendered from the root of the application so the path to images is Docs/-images/...
 
 ```
 ![pureHelp Screenshot](Docs/-images/pureHelp/IntroPage.png)

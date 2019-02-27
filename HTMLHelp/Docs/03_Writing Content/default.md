@@ -10,7 +10,7 @@ Every folder must have a default.md (or default.html) which is the help  shown w
 
 You add other content files under a folder.
 
-Files can be prefixed with a two digit number and an underscore to control the display order (otherwise its alphabetical).
+Files can be prefixed with a two digit number and an underscore to control the display order (otherwise it's alphabetical).
 
 
 ### Files and Folders
@@ -32,3 +32,6 @@ Here is the resulting help index
 
 ![Resulting Help Index](Docs/-images/pureHelp/FileStructureDisplayed.png)
 
+### Turning off caching
+
+See [Advanced Usage](javascript:linkTo("Advanced_Usage")) for the settings to turn off caching of content while you are writing content.

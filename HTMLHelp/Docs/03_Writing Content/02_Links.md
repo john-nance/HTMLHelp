@@ -10,8 +10,14 @@ In Markdown use the following code for a link to anther page.
    [Link Description](javascript:linkTo("Help_Page_Name"))
 ```
 
-Where "Help Page Name" is the name of the pages as seen in the help menu on the left. Use underscores (or %20) instead of spaces (Markdown doesn't like spaces in urls).
+Where "Help Page Name" is the name of the pages as seen in the help menu on the left. Use underscores instead of spaces (Markdown doesn't like spaces in urls).
 
-To link to other web pages, simple use normal [Markdown](linkTo("Markdown").
+To link to exterm web pages, simple use normal Markdown links with the full url instead of the javascript function.
 
-See also [Check Links](javascript:linkTo("Links")) for the utility to check all links in your content.
+### Benefits of LinkTo
+
+The LinkTo script finds help pages by their name.  This means you can safely re-organise your content, and change the sort order, without breaking links.
+
+If you use LinkTo, then make sure every page has a unique name - pureHelp will always return the first matching page.
+
+See also [Check Links](javascript:linkTo("Links")) for the utility to check all links in your help content.

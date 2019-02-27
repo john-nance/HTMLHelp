@@ -1,6 +1,5 @@
 ﻿
 using HeyRed.MarkdownSharp;
-using HTMLHelp.classes;
 using pureHelp.classes;
 using System;
 using System.Collections.Generic;
@@ -12,22 +11,23 @@ using System.Web.UI.WebControls;
 
 namespace pureHelp
 {
-    public partial class Default : System.Web.UI.Page
+    public partial class Default : pureHelp.classes.Page
     {
 
-        private List<ContentClass> HelpContent
+
+        private bool ResetMenu
         {
             get
             {
-                if (Session["Content"]==null)
+                if (Session["ResetMenu"] == null)
                 {
-                    Session["Content"] = new List<ContentClass>();
+                    Session["ResetMenu"] = true;
                 }
-                return (List<ContentClass>)Session["Content"];
+                return (bool)Session["ResetMenu"];
             }
             set
             {
-                Session["Content"] = value;
+                Session["ResetMenu"] = value;
             }
         }
 
@@ -35,97 +35,74 @@ namespace pureHelp
         {
             if (!Page.IsPostBack)
             {
-                DirectoryInfo rootInfo = new DirectoryInfo(Server.MapPath(Settings.HelpFolder));
-                HelpContent = new List<ContentClass>();
-                PopulateIndex(rootInfo, null);
+                if (Settings.NoCache)  // Reload the content from the file folders every time if NoCache set to true in pureHelp.config
+                    ContentCache.HelpFolderContent.Clear();
+
+                // Load the cache if needed
+                if ((ContentCache.HelpFolderContent is null) || (ContentCache.HelpFolderContent.Count==0))
+                {
+                    ContentCache.LoadContent(Server.MapPath(Settings.HelpFolder));
+                }
+
+                PopulateTreeView();
 
                 SetHelpHeader();
-
-                tvFolders.ExpandDepth = 1;
+                if (ResetMenu)
+                {
+                    tvFolders.ExpandDepth = 1;
+                    ResetMenu = false;
+                }
+                
                 tvFolders.Nodes[0].Selected = true;
                 ShowContent(tvFolders.Nodes[0]);
                 GetActionInURL();
             }
         }
 
-        private void PopulateIndex(DirectoryInfo dirInfo, TreeNode treeNode)
+        private void PopulateTreeView()
         {
-            foreach (DirectoryInfo directory in dirInfo.GetDirectories())
+            foreach (ContentClass c in ContentCache.HelpFolderContent)
             {
-                // Hidden Folder, add for refernce but don't show
-                if (directory.Name.Substring(0, 1) == "-")
-                {
-                    HelpContent.Add(new ContentClass(directory.Name, directory.Name, false, true));
-                    continue;
-                }
+                if (c.IsVisible == false) continue;
 
-                TreeNode directoryNode = new TreeNode
-                {
-                    Text = CleanFileName(directory.Name),
-                    Value = directory.FullName,
-                     
-                };
+                TreeNode newNode = new TreeNode(c.LinkName, c.NodeID.ToString());
 
-                ContentClass newContent = new ContentClass(directoryNode, true);
-                HelpContent.Add(newContent);
+                bool AddedOK = false;
 
-                if (treeNode == null)
+                if (c.ParentNodeID>-1)
                 {
-                    //If Root Node, add to TreeView.
-                    tvFolders.Nodes.Add(directoryNode);
-                }
-                else
-                {
-                    //If Child Node, add to Parent Node.
-                    treeNode.ChildNodes.Add(directoryNode);
-                }
-
-                //Get all files in the Directory.
-                foreach (FileInfo file in directory.GetFiles())
-                {
-                    if (CleanFileName(file.Name).ToLower() == Settings.DefaultPageName)
+                    ContentClass parentFolder = ContentCache.HelpFolderContent.Find(x => x.NodeID == c.ParentNodeID);
+                    if (parentFolder!=null)
                     {
-                        directoryNode.Value = file.FullName;
-                        newContent.FilePath = directoryNode.Value;
-                        continue;
+                        TreeNode parentTreeNode = tvFolders.FindNode(parentFolder.NodePath);
+                        if (parentTreeNode!=null)
+                        {
+                            parentTreeNode.ChildNodes.Add(newNode);
+                            AddedOK = true;
+                        }
                     }
-
-                    //Add each file as Child Node.
-                    TreeNode fileNode = new TreeNode
-                    {
-                        Text = CleanFileName(file.Name),
-                        Value = file.FullName
-                    };
-                    directoryNode.ChildNodes.Add(fileNode);
-                    HelpContent.Add(new ContentClass(fileNode, false));
                 }
 
-                PopulateIndex(directory, directoryNode);
+                if (!AddedOK)
+                {
+                    tvFolders.Nodes.Add(newNode);
+                }
             }
-        }
-
-        private string CleanFileName(string filename)
-        {
-            string CleanName = filename.Replace(".htm", string.Empty).Replace(".md",string.Empty).Replace("_", " ");
-            string first3 = CleanName.Substring(0, 3);
-            Regex rx = new Regex(@"[0-9][0-9] ");
-            MatchCollection matches = rx.Matches(first3);
-            if ((matches.Count==1) && (CleanName.Length>4))
-            {
-                CleanName = CleanName.Substring(3);
-            }
-            return CleanName;
-        }
-
-        private void ShowContent(string url)
-        {
-            Display(Server.MapPath(url));
         }
 
         private void ShowContent(TreeNode tn)
         {
             ExpandParents(tn);
-            Display(tn.Value);
+
+            int nValue = -1;
+            if (int.TryParse(tn.Value, out nValue))
+            {
+                ContentClass foundContent = ContentCache.HelpFolderContent.Find(x => x.NodeID == nValue);
+                if (foundContent!=null)
+                {
+                    Display(foundContent.FilePath);
+                }
+            }
         }
 
         private void Display(string FilePath)
@@ -219,7 +196,7 @@ namespace pureHelp
             page_HTML.Text = "<h1>Checking</h1>";
             string Root = Server.MapPath(Settings.HelpFolder);
 
-            foreach (ContentClass c in HelpContent)
+            foreach (ContentClass c in ContentCache.HelpFolderContent)
             {
                 page_HTML.Text += "<br/>Checking " + c.FilePath.Replace(Root, string.Empty);
                 if (c.IsVisible)
@@ -231,7 +208,7 @@ namespace pureHelp
                     }
                     else
                     {
-                        page_HTML.Text += " ... no content, skipping";
+                        page_HTML.Text += " ... no links found, skipping";
                     }
                 }
                 else
@@ -269,7 +246,6 @@ namespace pureHelp
                     }
                 }
 
-
                 string s = m.Result("\\1");
             }
         }
@@ -278,7 +254,7 @@ namespace pureHelp
         {
             bool result = false;
 
-            foreach (ContentClass c in HelpContent)
+            foreach (ContentClass c in ContentCache.HelpFolderContent)
             {
                 if (c.LinkName == pageName)
                 {
@@ -310,12 +286,18 @@ namespace pureHelp
                 return;
             }
 
+            if (action == "clearcache")
+            {
+                ClearCache();
+                return;
+            }
+
             action = action.Replace("_", " ");
 
             string PageRequest = string.Empty;
 
             ContentClass foundContent = null;
-            foreach (ContentClass c in HelpContent)
+            foreach (ContentClass c in ContentCache.HelpFolderContent)
             {
                 if ((c.LinkName.ToLower()==action)  && (c.IsVisible))
                 {
@@ -325,7 +307,7 @@ namespace pureHelp
             }
             if (foundContent != null)
             {
-                TreeNode thisNode = tvFolders.FindNode(foundContent.Node.ValuePath);
+                TreeNode thisNode = tvFolders.FindNode(foundContent.NodePath);
                 if (thisNode != null)
                 {
                     thisNode.Selected = true;
@@ -334,6 +316,20 @@ namespace pureHelp
                 Display(foundContent.FilePath);
             }
 
+        }
+
+        private void ClearCache()
+        {
+            ContentCache.LoadContent(Server.MapPath(Settings.HelpFolder));
+            tvFolders.Nodes.Clear();
+
+            PopulateTreeView();
+            SetHelpHeader();
+            tvFolders.ExpandDepth = 1;
+            ResetMenu = false;
+
+            tvFolders.Nodes[0].Selected = true;
+            ShowContent(tvFolders.Nodes[0]);
         }
 
         private void ExpandParents(TreeNode thisNode)

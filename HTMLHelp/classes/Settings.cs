@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Configuration;
 
-namespace HTMLHelp.classes
+namespace pureHelp.classes
 {
     public class Settings
     {
@@ -49,6 +49,23 @@ namespace HTMLHelp.classes
                 if (string.IsNullOrEmpty(value))
                     value = "default";
                 return value.ToLower();
+            }
+        }
+
+        public static bool NoCache //Name of the default pages without any extension
+        {
+            get
+            {
+                string value = WebConfigurationManager.AppSettings["NoCache"];
+                bool nCache = false;
+                if (!string.IsNullOrWhiteSpace(value))
+                {
+                    value = value.Trim().ToLower().Substring(1,1);
+                    if ((value == "y") || (value == "t") || (value == "1"))
+                        nCache = true;
+                }
+                
+                return nCache;
             }
         }
     }
