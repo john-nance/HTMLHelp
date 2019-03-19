@@ -15,6 +15,11 @@ There are hundreds of Markdown guides that are better than anything I could writ
 
 Search for *Markdown*.
 
+Heading | Heading | Heading
+--- | --- | ---
+Content1 | Content 2 | Content 3
+
+
 ## More Details
 
 See the pages on [Links](javascript:linkTo("Links")) and [Images](javascript:linkTo("Images")) for some tips and tools specific to pureHelp.

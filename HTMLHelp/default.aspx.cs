@@ -1,5 +1,6 @@
 ﻿
-using HeyRed.MarkdownSharp;
+//using HeyRed.MarkdownSharp;
+using Markdig;
 using pureHelp.classes;
 using System;
 using System.Collections.Generic;
@@ -146,8 +147,10 @@ namespace pureHelp
                     if (IsMarkDown)
                     {
 
-                        Markdown md = new Markdown();
-                        content = md.Transform(content) + "<br/>";
+                        //Markdown md = new Markdown();
+                        //content = md.Transform(content) + "<br/>";
+                       var newPipe = new  MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
+                        content = Markdown.ToHtml(content, newPipe);
                     }
                     page_HTML.Text = content;
                 }
