@@ -191,6 +191,23 @@ namespace pureHelp
             ShowContent(thisNode);
         }
 
+        private void ShowLinks()
+        {
+            page_HTML.Text = "<h1>Links</h1>";
+            string Root = Server.MapPath(Settings.HelpFolder);
+            string linkTemplate = "[{0}](javascript:linkTo(\"{1}\")) </br/>";
+
+            foreach (ContentClass c in ContentCache.HelpFolderContent)
+            {
+                if (c.IsVisible)
+                {
+                    string pageName = c.LinkName;
+                    string cleanName = pageName.Replace(" ", "_");
+                    page_HTML.Text += string.Format(linkTemplate, pageName, cleanName);
+                }
+            }
+        }
+
         private void CheckPages()
         {
             page_HTML.Text = "<h1>Checking</h1>";
@@ -289,6 +306,12 @@ namespace pureHelp
             if (action == "clearcache")
             {
                 ClearCache();
+                return;
+            }
+
+            if (action == "showlinks")
+            {
+                ShowLinks();
                 return;
             }
 

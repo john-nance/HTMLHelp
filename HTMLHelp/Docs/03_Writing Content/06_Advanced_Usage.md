@@ -16,7 +16,7 @@ See also [Check for errors](javascript:linkTo("Checking_for_errors")) for the ut
 
 ## Caching the help folders
 
-By default the help folders are scanned once when the application is started.  You can refresh the cache after changes using the clearcache action.
+By default the help folders are scanned once when the application is started.  You can refresh the cache after changes using the ClearCache action.
 
 ... pureHelp/default.aspx**?Action=ClearCache**
 
@@ -25,6 +25,14 @@ If you are writing a help system or using it in test mode, change the NoCache se
 pureHelp doesn't cache page content so any updates to page content will always be seen immediately.
 
 NoCache should be **False** for any production systems.
+
+## Helping with links
+
+You can list all the available links using
+
+... pureHelp/default.aspx**?Action=ShowLinks**
+
+This lists all the available links in Markdown format which can be copied into your help content.
 
 ## Configuration Settings
 
