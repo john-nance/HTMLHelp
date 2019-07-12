@@ -62,17 +62,17 @@ To get the above links working, we are disabling some security checks.  Help con
 
 ## Styling
 
-The default styling HTML 5 grids.  The stylesheet is forms.css.  It uses css variables to make it easier to change colours.  This means it will work in Chrome, Firefox, Edge and Safari but not in IE.  The only issue for IE is the styling so you'll need to remove grids and variables.
+The default styling uses HTML 5 grids.  The stylesheet is forms.css.  It uses css variables to make it easier to change colours.  This means it will work in Chrome, Firefox, Edge and Safari but not in IE.  The only issue for IE is the styling so you'll need to remove grids and variables.
 
-Configuration settins are used for the logo and help title.
+Configuration settings are used for the logo and help title.
 
 ## Link Checking
 
-Add **?Action=CheckLinks** to the url to run a link checking utility which check links inside the help system using *linkTo*.
+Add **?Action=CheckLinks** to the url to run a link checking utility which checks all the links inside the help system using *linkTo*.
 
 ## Cache Control
 
-Configuration settings control if the folder structure is cached for all users.  If cached, then use **?Action=ClearCache** to re-read and cache the folder structure after making changes.  Pages aren't cached so any changes take effect immediately. 
+Configuration settings control if the folder structure is cached for all users.  If cached, then use **?Action=ClearCache** to re-read and cache the folder structure after making changes.  Pages aren't cached so any changes to the page content take effect immediately. 
 
 ## Url for context sensitive help
 
